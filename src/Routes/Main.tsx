@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import { isAbsolute } from "node:path/win32";
 const Container=styled.div<{day:string}>`
-    background-image:${props=>`url("${process.env.PUBLIC_URL}images/${props.day}.jpg")`};
+    background-image:${props=>`url("${process.env.PUBLIC_URL}/images/${props.day}.jpg")`};
     width:100%;
     height:100vh;
     background-size:cover;
