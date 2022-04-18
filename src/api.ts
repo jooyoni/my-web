@@ -4,9 +4,10 @@ export interface IStockProps{
         close:number;
         companyName:string;
         symbol:string;
-        latestTime:string;
+        latestPrice:number;
         latestSource:string;
         change:number;
+        changePercent:number;
     };
 
 }

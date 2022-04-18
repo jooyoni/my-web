@@ -13,6 +13,7 @@ const Container=styled.div<{day:string}>`
     background-position: center;
     position:relative;
     min-width:1000px;
+    min-height:800px;
 `;
 const Content=styled(motion.div)`
     width:50%;
@@ -99,7 +100,6 @@ const WeatherInfo=styled.div`
     }
 `;
 const Stock=styled(motion.div)`
-    padding:0 10px;
     box-sizing: border-box;
     width:385px;
     border-radius:20px;
@@ -110,6 +110,7 @@ const Stock=styled(motion.div)`
     color:white;
     margin-top:20px;
     display:flex;
+    justify-content: space-around;
     & > div:first-child{
         display:flex;
         flex-direction:column;
@@ -123,6 +124,16 @@ const Stock=styled(motion.div)`
         display:flex;
         flex-direction: column;
         justify-content: center;
+        align-items: flex-end;
+    }
+`;
+const PriceInfo=styled.div`
+    & > :first-child {
+        font-size:25px;
+        font-weight:bold;
+    }
+    & > :last-child{
+        font-size:15px;
     }
 `;
 const SideBar=styled.div`
@@ -216,6 +227,8 @@ const SecondLi=styled(motion.li)`
         font-size:18px;
     }
 `;
+
+
 const timeVariants={
     before:{
         y:50,opacity:0
@@ -351,10 +364,10 @@ function Main(){
                         <span>{data?.quote.symbol}</span>
                         <span>{data?.quote.companyName}</span>
                     </div>
-                    <div>
-                        <span>{data?.quote.latestTime}</span>
-                        <span>{data?.quote.close}${data?.quote.change}</span>
-                    </div>
+                    <PriceInfo>
+                        <span>${data?.quote.latestPrice}</span>
+                        <span><span>{data?.quote.change}</span>({data? (data.quote.changePercent*100).toFixed(2):null}%)</span>
+                    </PriceInfo>
                 </Stock>
             </Content>
             <SideBar onMouseOver={()=>setSideBarMouseIn(true)} onMouseLeave={()=>setSideBarMouseIn(false)}>
