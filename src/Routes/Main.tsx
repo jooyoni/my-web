@@ -236,9 +236,6 @@ const timeVariants={
     after:{
         y:0,opacity:1
     },
-    exit:{
-        y:10, opacity:0
-    }
 }
 
 const secondVariants={
@@ -251,14 +248,12 @@ const secondVariants={
 }
 const secondLiVariants={
     start:{
-        y:50,
         opacity:0,
     },
     end:{
-        y:0,
         opacity:1,
         transition:{
-            duration:0.12
+            duration:0.6
         }
     },
 }
