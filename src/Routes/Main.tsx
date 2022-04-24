@@ -312,7 +312,6 @@ function Main(){
             setSeconds([second.substring(0,1),second.substring(1,2)])
         },1000);
     },[seconds]);
-    console.log(weather);
     const onSubmit=(event:React.FormEvent<HTMLFormElement>)=>{
         event.preventDefault();
         document.location.href=`https://www.google.com/search?q=${searchValue}&biw=1920&bih=937&sxsrf=APq-WBuqhF6sNnSbSzYZTHKxVtElesJW8g%3A1650267364919&ei=5BRdYpXZN6XH2roPoKqkqAI&ved=0ahUKEwiV28eAjZ33AhWlo1YBHSAVCSUQ4dUDCA4&uact=5&oq=form%ED%83%9C%EA%B7%B8&gs_lcp=Cgdnd3Mtd2l6EAMyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEOgQIIxAnOggILhCABBCxAzoLCAAQgAQQsQMQgwE6CAgAEIAEELEDOgUILhCABDoHCCMQ6gIQJzoOCC4QgAQQsQMQxwEQ0QM6BwgAEIAEEAo6CAguEIAEENQCOg4ILhCABBCxAxDHARCjAjoECAAQA0oECEEYAEoECEYYAFAAWL0QYP8YaAJwAXgBgAF6iAG_B5IBAzEuOJgBAKABAbABCsABAQ&sclient=gws-wiz`
@@ -346,7 +345,7 @@ function Main(){
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
                        ):weather?.weather[0].main=="Rain"?(
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 128c-.625 0-1.125 .25-1.625 .25C415.5 123 416 117.6 416 112C416 67.75 380.3 32 336 32c-24.62 0-46.25 11.25-61 28.75C256.4 24.75 219.3 0 176 0C114.1 0 64 50.13 64 112c0 7.25 .75 14.25 2.125 21.25C27.75 145.8 0 181.5 0 224c0 53 43 96 96 96h320c53 0 96-43 96-96S469 128 416 128zM368 464c0 26.51 21.49 48 48 48s48-21.49 48-48s-48.01-95.1-48.01-95.1S368 437.5 368 464zM48 464C48 490.5 69.49 512 96 512s48-21.49 48-48s-48.01-95.1-48.01-95.1S48 437.5 48 464zM208 464c0 26.51 21.49 48 48 48s48-21.49 48-48s-48.01-95.1-48.01-95.1S208 437.5 208 464z"/></svg>
-                       ):weather?.weather[0].main=="Haze"?(
+                       ):weather?.weather[0].main=="Haze"|| weather?.weather[0].main=="Mist"?(
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M144 288h156.1C322.6 307.8 351.8 320 384 320s61.25-12.25 83.88-32H528C589.9 288 640 237.9 640 176s-50.13-112-112-112c-18 0-34.75 4.625-49.75 12.12C453.1 30.1 406.8 0 352 0c-41 0-77.75 17.25-104 44.75C221.8 17.25 185 0 144 0c-79.5 0-144 64.5-144 144S64.5 288 144 288zM136 464H23.1C10.8 464 0 474.8 0 487.1S10.8 512 23.1 512H136C149.2 512 160 501.2 160 488S149.2 464 136 464zM616 368h-528C74.8 368 64 378.8 64 391.1S74.8 416 87.1 416h528c13.2 0 24-10.8 24-23.1S629.2 368 616 368zM552 464H231.1C218.8 464 208 474.8 208 487.1S218.8 512 231.1 512H552c13.2 0 24-10.8 24-23.1S565.2 464 552 464z"/></svg>
                        ):null} 
                     </WeatherIcon>
@@ -463,6 +462,9 @@ function Main(){
                                     </SecondLi>
                                     <SecondLi variants={secondLiVariants}>
                                         <motion.a href="https://www.jobplanet.co.kr/job" variants={childVariants} whileHover="hover" >잡플래닛</motion.a>
+                                    </SecondLi>
+                                    <SecondLi variants={secondLiVariants}>
+                                        <motion.a href="https://www.rocketpunch.com/" variants={childVariants} whileHover="hover" >로켓펀치</motion.a>
                                     </SecondLi>
                             </SecondUl>
                             ):null}
