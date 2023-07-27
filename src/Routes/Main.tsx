@@ -57,7 +57,7 @@ const Time = styled.div`
     justify-content:center;
   }
   &.move {
-    transition: transform 0.7s ease;
+    transition: transform 0.4s ease;
     transform: translateY(-150px);
 `;
 const MoveTime = styled(motion.div)``;
