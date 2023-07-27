@@ -16,6 +16,26 @@ const Container = styled.div<{ day: string }>`
   min-width: 1000px;
   min-height: 800px;
 `;
+const TimerWrap = styled.div`
+  display: flex;
+  height: 150px;
+  overflow: hidden;
+  width: 100%;
+  justify-content: center;
+  & > * {
+    opacity: 0.6;
+  }
+  &:hover > * {
+    opacity: 1;
+  }
+  & > span {
+    font-size: 130px;
+    color: white;
+    width: 35px;
+    display: flex;
+    justify-content: center;
+  }
+`;
 const Content = styled(motion.div)`
   width: 50%;
   margin: 0 auto;
@@ -24,16 +44,21 @@ const Content = styled(motion.div)`
   box-sizing: border-box;
   padding-top: 220px;
 `;
-const Time = styled(motion.div)`
-  font-size: 150px;
-  font-weight: bold;
-  color: white;
+const Time = styled.div`
   display: flex;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 595px;
-  opacity: 0.6;
+  flex-direction: column;
+  & > span {
+    line-height: 150px;
+    color: white;
+    font-size: 135px;
+    font-weight:bold;
+    width:71px;
+    display:flex;
+    justify-content:center;
+  }
+  &.move {
+    transition: transform 0.7s ease;
+    transform: translateY(-150px);
 `;
 const MoveTime = styled(motion.div)``;
 const Search = styled(motion.div)`
@@ -280,9 +305,9 @@ function Main() {
     'weather',
     getSeoulWeather,
   );
-  const [hours, setHours] = useState(['0', '0']);
-  const [minutes, setMinutes] = useState(['0', '0']);
-  const [seconds, setSeconds] = useState(['0', '0']);
+  // const [hours, setHours] = useState(['0', '0']);
+  // const [minutes, setMinutes] = useState(['0', '0']);
+  // const [seconds, setSeconds] = useState(['0', '0']);
   const [day, setDay] = useState('night');
   const [searchValue, setSearchValue] = useState('');
   const [sideBarMouseIn, setSideBarMouseIn] = useState(false);
@@ -292,33 +317,139 @@ function Main() {
   const [threeMouseIn, setThreeMouseIn] = useState(false);
   const [fourMouseIn, setFourMouseIn] = useState(false);
   const [companyMouseIn, setCompanyMouseIn] = useState(false);
-  useEffect(() => {
-    setTimeout(() => {
-      const time = new Date();
-      let hour = String(time.getHours());
-      let minute = String(time.getMinutes());
-      let second = String(time.getSeconds());
-      if (hour.length == 1) hour = '0' + hour;
-      if (minute.length == 1) minute = '0' + minute;
-      if (second.length == 1) second = '0' + second;
-      if (weather?.weather[0].main == 'Rain') setDay('rain');
-      else {
-        if (Number(hour) >= 19 || Number(hour) <= 6) setDay('night');
-        else setDay('sunny');
-      }
-      setHours([hour.substring(0, 1), hour.substring(1, 2)]);
-      setMinutes([minute.substring(0, 1), minute.substring(1, 2)]);
-      setSeconds([second.substring(0, 1), second.substring(1, 2)]);
-    }, 1000);
-  }, [seconds]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     const time = new Date();
+  //     let hour = String(time.getHours());
+  //     let minute = String(time.getMinutes());
+  //     let second = String(time.getSeconds());
+  //     if (hour.length == 1) hour = '0' + hour;
+  //     if (minute.length == 1) minute = '0' + minute;
+  //     if (second.length == 1) second = '0' + second;
+  //     if (weather?.weather[0].main == 'Rain') setDay('rain');
+  //     else {
+  //       if (Number(hour) >= 19 || Number(hour) <= 6) setDay('night');
+  //       else setDay('sunny');
+  //     }
+  //     setHours([hour.substring(0, 1), hour.substring(1, 2)]);
+  //     setMinutes([minute.substring(0, 1), minute.substring(1, 2)]);
+  //     setSeconds([second.substring(0, 1), second.substring(1, 2)]);
+  //   }, 1000);
+  // }, [seconds]);
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     document.location.href = `https://www.google.com/search?q=${searchValue}&biw=1920&bih=937&sxsrf=APq-WBuqhF6sNnSbSzYZTHKxVtElesJW8g%3A1650267364919&ei=5BRdYpXZN6XH2roPoKqkqAI&ved=0ahUKEwiV28eAjZ33AhWlo1YBHSAVCSUQ4dUDCA4&uact=5&oq=form%ED%83%9C%EA%B7%B8&gs_lcp=Cgdnd3Mtd2l6EAMyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEOgQIIxAnOggILhCABBCxAzoLCAAQgAQQsQMQgwE6CAgAEIAEELEDOgUILhCABDoHCCMQ6gIQJzoOCC4QgAQQsQMQxwEQ0QM6BwgAEIAEEAo6CAguEIAEENQCOg4ILhCABBCxAxDHARCjAjoECAAQA0oECEEYAEoECEYYAFAAWL0QYP8YaAJwAXgBgAF6iAG_B5IBAzEuOJgBAKABAbABCsABAQ&sclient=gws-wiz`;
   };
+  const [hour1, setHour1] = useState('0');
+  const [hour2, setHour2] = useState('0');
+  const [minute1, setMinute1] = useState('0');
+  const [minute2, setMinute2] = useState('0');
+  const [second1, setSecond1] = useState('0');
+  const [second2, setSecond2] = useState('0');
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      const eventTimeLeft = new Date();
+      // const dayLeft = String(Math.floor(eventTimeLeft / (1000 * 60 * 60 * 24)));
+      const hourLeft = '0' + eventTimeLeft.getHours();
+      const minuteLeft = '0' + eventTimeLeft.getMinutes();
+      const secondLeft = '0' + eventTimeLeft.getSeconds();
+      // setDay(dayLeft);
+      setHour1(hourLeft.slice(-2, -1));
+      setHour2(hourLeft.slice(-1));
+      setMinute1(minuteLeft.slice(-2, -1));
+      setMinute2(minuteLeft.slice(-1));
+      setSecond1(secondLeft.slice(-2, -1));
+      setSecond2(secondLeft.slice(-1));
+      setHourMove1(false);
+      setHourMove2(false);
+      setMinuteMove1(false);
+      setMinuteMove2(false);
+      setSecondMove1(false);
+      setSecondMove2(false);
+    }, 1000);
+  }, [second2]);
+  const [hourMove1, setHourMove1] = useState(false);
+  const [hourMove2, setHourMove2] = useState(false);
+  const [minuteMove1, setMinuteMove1] = useState(false);
+  const [minuteMove2, setMinuteMove2] = useState(false);
+  const [secondMove1, setSecondMove1] = useState(false);
+  const [secondMove2, setSecondMove2] = useState(false);
+  useEffect(() => {
+    if (!secondMove2)
+      setTimeout(() => {
+        if (
+          (hour2 == '9' || hour2 == '3') &&
+          minute1 == '5' &&
+          minute2 == '9' &&
+          second1 == '5' &&
+          second2 == '9'
+        )
+          setHourMove1(true);
+        if (
+          minute1 == '5' &&
+          minute2 == '9' &&
+          second1 == '5' &&
+          second2 == '9'
+        )
+          setHourMove2(true);
+
+        if (minute2 == '9' && second1 == '5' && second2 == '9')
+          setMinuteMove1(true);
+        if (second1 == '5' && second2 == '9') setMinuteMove2(true);
+        if (second2 == '9') setSecondMove1(true);
+        setSecondMove2(true);
+      }, 500);
+  }, [secondMove2]);
+
   return (
     <Container day={day}>
       <Content>
-        <Time whileHover={{ opacity: 1 }}>
+        <TimerWrap>
+          <Time className={hourMove1 ? 'move' : ''}>
+            <span>{hour1}</span>
+            <span>{hour1 == '2' ? '0' : Number(hour1) + 1}</span>
+          </Time>
+          <Time className={hourMove2 ? 'move' : ''}>
+            <span>{hour2}</span>
+            <span>
+              {hour1 == '2'
+                ? hour2 == '3'
+                  ? '0'
+                  : Number(hour2) + 1
+                : hour2 == '9'
+                ? '0'
+                : Number(hour2) + 1}
+            </span>
+          </Time>
+          <span>&nbsp;:&nbsp;</span>
+          <Time className={minuteMove1 ? 'move' : ''}>
+            <span>{minute1}</span>
+            <span>{minute1 == '5' ? '0' : Number(minute1) + 1}</span>
+          </Time>
+          <Time className={minuteMove2 ? 'move' : ''}>
+            <span>{minute2}</span>
+            <span>{minute2 == '9' ? '0' : Number(minute2) + 1}</span>
+          </Time>
+          <span>&nbsp;:&nbsp;</span>
+          <Time className={secondMove1 ? 'move' : ''}>
+            <span>{second1}</span>
+            <span>{second1 == '5' ? '0' : Number(second1) + 1}</span>
+          </Time>
+          <Time className={secondMove2 ? 'move' : ''}>
+            <span>{second2}</span>
+            <span>{second2 == '9' ? '0' : Number(second2) + 1}</span>
+          </Time>
+        </TimerWrap>
+
+        {/* <Time whileHover={{ opacity: 1 }}>
           <AnimatePresence initial={false}>
             <MoveTime
               transition={{ type: 'linear' }}
@@ -377,7 +508,7 @@ function Main() {
               {seconds[1]}
             </MoveTime>
           </AnimatePresence>
-        </Time>
+        </Time> */}
         <Search>
           <form onSubmit={onSubmit}>
             <svg
