@@ -24,7 +24,7 @@ export interface IWeatherProps {
 
 export function getNndm() {
   return fetch(
-    'https://cloud.iexapis.com/stable/stock/NNDM/book?token=pk_4242c5c39e194e1f97b3deb1ce0da323',
+    'https://cloud.iexapis.com/stable/stock/NNDM/book?token=pk_bd01fb5baf384826a86a28fd4f608990',
   ).then((response) => response.json());
 }
 
